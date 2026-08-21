@@ -44,6 +44,17 @@ brew untap llbbl/uncov
 - macOS (Intel / x64)
 - Linux (x64)
 
+## Maintenance
+
+`Formula/uncov.rb` is generated — do not edit it by hand. A scheduled workflow
+(`.github/workflows/update-uncov-formula.yml`) polls upstream every 6 hours and
+regenerates the formula via `scripts/render-uncov-formula.sh` once a release has
+aged past a 24-hour hold window, so a bump lands roughly 24–30h after release.
+To bump immediately, run the workflow manually with `force: true`.
+
+Checksums are computed from the release binaries directly; upstream published
+`.sha256` sidecar files up to v0.1.4 but stopped publishing them at v0.1.6.
+
 ## Links
 
 - [uncov repository](https://github.com/llbbl/uncov)
