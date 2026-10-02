@@ -1,62 +1,54 @@
-# Homebrew Tap for uncov
+# uncov has moved to llbbl/tap
 
-This is the official [Homebrew](https://brew.sh/) tap for [uncov](https://github.com/llbbl/uncov), a CLI tool that reports files with low test coverage from Vitest/Istanbul output.
+The Homebrew formula and release updater for
+[uncov](https://github.com/llbbl/uncov) now live in the shared
+[llbbl/tap](https://github.com/llbbl/homebrew-tap) repository.
 
 ## Installation
 
 ```bash
-brew tap llbbl/uncov
+brew install llbbl/tap/uncov
+```
+
+For installation by short name, tap the shared repository and trust the formula:
+
+```bash
+brew tap llbbl/tap
+brew trust --formula llbbl/tap/uncov
 brew install uncov
 ```
 
-Or in a single command:
+Alternatively, `brew trust --tap llbbl/tap` trusts every current and future
+formula, cask, and external command in the shared tap.
+
+## Migrate an existing installation
+
+Trust the destination before updating:
 
 ```bash
-brew install llbbl/uncov/uncov
-```
-
-## Usage
-
-```bash
-uncov                     # Report files at or below 10% coverage
-uncov --threshold 50      # Files at or below 50% coverage
-uncov --fail              # Exit 1 if any files below threshold
-uncov --help              # Show all options
-```
-
-## Updating
-
-```bash
+brew tap llbbl/tap
+brew trust --formula llbbl/tap/uncov
 brew update
-brew upgrade uncov
+brew upgrade llbbl/tap/uncov
 ```
 
-## Uninstalling
+This repository's `tap_migrations.json` maps `uncov` to `llbbl/tap`, allowing
+Homebrew to update the tap recorded for existing installations during an update.
+If migration was previously skipped, run `brew reinstall llbbl/tap/uncov`.
+Once `brew info uncov` identifies the shared tap, remove the old tap:
 
 ```bash
-brew uninstall uncov
 brew untap llbbl/uncov
 ```
 
-## Supported Platforms
-
-- macOS (Apple Silicon / arm64)
-- macOS (Intel / x64)
-- Linux (x64)
+Update any Brewfiles or scripts to use `llbbl/tap/uncov` instead of
+`llbbl/uncov/uncov`. Trust granted to this old tap does not grant trust to the
+destination. See Homebrew's [Tap Trust documentation](https://docs.brew.sh/Tap-Trust).
 
 ## Maintenance
 
-`Formula/uncov.rb` is generated — do not edit it by hand. A scheduled workflow
-(`.github/workflows/update-uncov-formula.yml`) polls upstream every 6 hours and
-regenerates the formula via `scripts/render-uncov-formula.sh` once a release has
-aged past a 24-hour hold window, so a bump lands roughly 24–30h after release.
-To bump immediately, run the workflow manually with `force: true`.
-
-Checksums are computed from the release binaries directly; upstream published
-`.sha256` sidecar files up to v0.1.4 but stopped publishing them at v0.1.6.
-
-## Links
-
-- [uncov repository](https://github.com/llbbl/uncov)
-- [Releases](https://github.com/llbbl/uncov/releases)
-- [Documentation](https://github.com/llbbl/uncov#readme)
+This tap retains only the migration mapping and documentation. Its formula,
+renderer, and updater workflow have been removed. The shared tap's updater
+polls `llbbl/uncov` releases every six hours, applies a 24-hour hold, computes
+checksums from release binaries, and regenerates the formula. Manual dispatch
+with `force: true` bypasses the hold.
